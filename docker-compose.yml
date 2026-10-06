@@ -1,0 +1,32 @@
+
+services:
+
+  backend:
+    build:
+      context: ./backend-accessoires
+    container_name: backend-accessoires
+    ports:
+      - "1337:1337"
+    environment:
+      HOST: 0.0.0.0
+      PORT: 1337
+    networks:
+      - app-network
+
+  frontend:
+    build:
+      context: ./frontend-vitrine
+    container_name: frontend-vitrine
+    ports:
+      - "3000:3000"
+    environment:
+      NEXT_PUBLIC_API_URL: http://localhost:1337
+    depends_on:
+      - backend
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+
